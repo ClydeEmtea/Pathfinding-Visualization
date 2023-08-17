@@ -8,17 +8,16 @@ public interface Constants {
     int WIDTH = 1600;
     int HEIGHT = 800;
     int DELAY = 10;
-    int NODE_SIZE = 20;
+    int NODE_SIZE = 16;
     int NODES_X = WIDTH / NODE_SIZE;
     int NODES_Y = HEIGHT / NODE_SIZE;
-    int STEPS_PER_FRAME = 4;
+    int STEPS_PER_FRAME = 10;
 
     Color darkGray = new Color(40, 40, 40);
-    Color gray = new Color(100, 100, 100);
     Color lightGray = new Color(200, 200, 200);
     Color lightBlue = new Color(142,199,220);
     Color green = new Color(189,255,172);
-    Color darkBlue = new Color(0,82,120);
+    Color darkBlue = new Color(50,100,170);
     Color red = new Color(150, 50, 50);
 
     static int[][] createMap(int height, int width) {

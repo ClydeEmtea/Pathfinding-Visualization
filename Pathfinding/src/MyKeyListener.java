@@ -27,6 +27,9 @@ public class MyKeyListener implements KeyListener {
             case KeyEvent.VK_R -> {
                 if (!app.simulating) app.createMap();
             }
+            case KeyEvent.VK_ESCAPE -> {
+                if (!app.simulating) app.clear();
+            }
         }
     }
 

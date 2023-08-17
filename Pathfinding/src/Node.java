@@ -24,9 +24,6 @@ public class Node {
     }
 
     // Getters and setters
-    public void setColor(Color color) {
-        this.color = color;
-    }
 
     public boolean isWall() {
         return color == Constants.lightGray;
@@ -52,12 +49,6 @@ public class Node {
     public void makeEnd() {
         this.isEnd = true;
         this.color = Constants.lightBlue;
-    }
-
-    public void makeOpen() {
-        this.color = Constants.darkGray;
-        this.isEnd = false;
-        this.isStart = false;
     }
 
     public int getX() {
@@ -116,5 +107,15 @@ public class Node {
 
     public void makeRed() {
         this.color = Constants.red;
+    }
+
+    public void reset() {
+        this.gCost = 0;
+        this.hCost = 0;
+        this.fCost = 0;
+        this.previousNode = null;
+        this.isStart = false;
+        this.isEnd = false;
+        this.color = Constants.darkGray;
     }
 }

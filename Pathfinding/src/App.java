@@ -26,6 +26,8 @@ public class App extends JPanel implements ActionListener, Constants {
     List<Node> closedList = new ArrayList<>();
     boolean simulating = false;
     boolean showInstructions = true;
+    boolean showResults = false;
+    boolean success = false;
 
     int[][] map;
 
@@ -42,7 +44,8 @@ public class App extends JPanel implements ActionListener, Constants {
 
     // Draws nodes
     public void setNode(int x, int y) {
-        if (x < 0 || x >= NODES_X || y < 0 || y > NODES_Y) return;
+        if (simulating) return;
+        if (x < 0 || x >= NODES_X || y < 0 || y >= NODES_Y) return;
         if (nodes[x][y].isStart() || nodes[x][y].isEnd() || nodes[x][y].isWall()) return;
         if (!isStart) {
             nodes[x][y].makeStart();
@@ -62,6 +65,8 @@ public class App extends JPanel implements ActionListener, Constants {
 
     // Deletes nodes
     public void deleteNode(int x, int y) {
+        if (simulating) return;
+        showResults = false;
         if (x < 0 || x >= NODES_X || y < 0 || y > NODES_Y) return;
         if (nodes[x][y].isStart()) {
             isStart = false;
@@ -72,23 +77,35 @@ public class App extends JPanel implements ActionListener, Constants {
             endNode = null;
 
         }
-        nodes[x][y].makeOpen();
-        nodes[x][y].setPreviousNode(null);
+        nodes[x][y].reset();
     }
 
     // Deletes all nodes
     public void deleteAllNodes() {
         for (Node[] nodes1 : nodes) {
             for (Node node : nodes1) {
-                node.setColor(Constants.darkGray);
-                node.makeOpen();
-                node.setPreviousNode(null);
+                node.reset();
             }
         }
         isStart = false;
         startNode = null;
         isEnd = false;
         endNode = null;
+        showResults = false;
+        success = false;
+    }
+
+    public void clear() {
+        for (Node[] nodes1 : nodes) {
+            for (Node node : nodes1) {
+                if (node.isStart() || node.isEnd() || node.isWall()) {
+                    continue;
+                }
+                node.reset();
+            }
+        }
+        showResults = false;
+        success = false;
     }
 
 
@@ -102,21 +119,19 @@ public class App extends JPanel implements ActionListener, Constants {
                     continue;
                 }
 
-                node.setPreviousNode(null);
-                node.setGCost(0);
-                node.setHCost(0);
-                node.setFCost(0);
-                node.makeOpen();
+                node.reset();
             }
         }
         openList.add(startNode);
         simulating = true;
         showInstructions = false;
+        showResults = false;
     }
 
     // Stops the simulation
     public void stopSim() {
         simulating = false;
+        success = false;
     }
 
     // Steps through the simulation
@@ -173,6 +188,8 @@ public class App extends JPanel implements ActionListener, Constants {
             node.makePath();
             node = node.getPreviousNode();
         }
+        success = true;
+        showResults = true;
 
     }
 
@@ -185,6 +202,8 @@ public class App extends JPanel implements ActionListener, Constants {
                 }
             }
         }
+        success = false;
+        showResults = true;
     }
 
     // Calculates the G cost of a node
@@ -251,8 +270,7 @@ public class App extends JPanel implements ActionListener, Constants {
     public void createMap() {
         for (Node[] nodes1 : nodes) {
             for (Node node : nodes1) {
-                node.makeOpen();
-                node.setPreviousNode(null);
+                node.reset();
             }
         }
 
@@ -260,6 +278,9 @@ public class App extends JPanel implements ActionListener, Constants {
         isEnd = false;
         startNode = null;
         endNode = null;
+        showResults = false;
+        showInstructions = false;
+        success = false;
         map = Constants.createMap(NODES_Y, NODES_X);
 
         for (int i = 0; i < map.length; i++) {
@@ -268,8 +289,7 @@ public class App extends JPanel implements ActionListener, Constants {
                     nodes[j][i].makeWall();
 
                 } else {
-                    nodes[j][i].makeOpen();
-                    nodes[j][i].setPreviousNode(null);
+                    nodes[j][i].reset();
                 }
             }
         }
@@ -285,16 +305,6 @@ public class App extends JPanel implements ActionListener, Constants {
         }
     }
 
-    // Draws lines
-    public void drawLines(Graphics g){
-        g.setColor(Constants.gray);
-        for (int i = 0; i < NODES_X; i++) {
-            g.drawLine(i * NODE_SIZE, 0, i * NODE_SIZE, Constants.HEIGHT);
-        }
-        for (int i = 0; i < NODES_Y; i++) {
-            g.drawLine(0, i * NODE_SIZE, Constants.WIDTH, i * NODE_SIZE);
-        }
-    }
 
     // Draws instructions
     public void drawInstructions(Graphics g) {
@@ -304,15 +314,27 @@ public class App extends JPanel implements ActionListener, Constants {
         g.drawString("Press C to clear the map", 10, 40);
         g.drawString("Press SPACE to start/stop the simulation", 10, 60);
         g.drawString("Press and hold the left mouse button to draw walls", 10, 80);
-        g.drawString("Press and hold the right mouse button to delete walls", 10, 100);
+        g.drawString("Press the right mouse button to delete walls", 10, 100);
+    }
+
+    public void drawResults(Graphics g) {
+        g.setColor(Constants.darkGray);
+        g.fillRect(0, 0, 200, 50);
+        g.setColor(Color.WHITE);
+        g.setFont(new Font("Arial", Font.BOLD, 15));
+        if (!success) g.drawString("No path found!", 10, 20);
+        else {
+            g.drawString("Pathfinding complete!", 10, 20);
+            g.drawString("Distance: " + endNode.getGCost(), 10, 40);
+        }
     }
 
     // Paints the JPanel
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         drawNodes(g);
-        drawLines(g);
         if (showInstructions) drawInstructions(g);
+        if (showResults) drawResults(g);
     }
 
 
