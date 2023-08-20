@@ -3,12 +3,12 @@ import java.awt.*;
 public class Node {
 
     // Variables
-    private final int x, y;
-    private Color color;
-    private int gCost, hCost, fCost;
-    private Node previousNode;
-    private boolean isEnd = false;
-    private boolean isStart = false;
+    private final int x, y; // Coordinates of the node
+    private Color color; // Color of the node
+    private int gCost, hCost, fCost; // Costs used in pathfinding algorithms
+    private Node previousNode; // Previous node in the path
+    private boolean isEnd = false; // Whether the node is the end point
+    private boolean isStart = false; // Whether the node is the start point
 
     // Constructor
     public Node(int x, int y, Color color) {

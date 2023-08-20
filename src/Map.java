@@ -1,29 +1,13 @@
-import java.awt.*;
 import java.util.Arrays;
 import java.util.Random;
 
-public interface Constants {
+public class Map {
 
-    // Constants used throughout the program
-    int WIDTH = 1600;
-    int HEIGHT = 800;
-    int DELAY = 10;
-    int NODE_SIZE = 16;
-    int NODES_X = WIDTH / NODE_SIZE;
-    int NODES_Y = HEIGHT / NODE_SIZE;
-    int STEPS_PER_FRAME = 10;
+    // Creates a maze using depth-first search
+    static int[][] createMap() {
+        int[][] maze = new int[Constants.NODES_Y][Constants.NODES_X]; // Generate a maze with dimensions height x width
 
-    Color darkGray = new Color(40, 40, 40);
-    Color lightGray = new Color(200, 200, 200);
-    Color lightBlue = new Color(142,199,220);
-    Color green = new Color(189,255,172);
-    Color darkBlue = new Color(50,100,170);
-    Color red = new Color(150, 50, 50);
-
-    static int[][] createMap(int height, int width) {
-        int[][] maze = new int[height][width]; // Generate a maze with dimensions height x width
-
-        for (int i = 0; i < height; i++) { // Fill the maze with walls
+        for (int i = 0; i < Constants.NODES_Y; i++) { // Fill the maze with walls
             Arrays.fill(maze[i], 1);
         }
 
@@ -32,6 +16,7 @@ public interface Constants {
         return maze;
     }
 
+    // Recursive function to generate the maze
     static void createMaze(int[][] maze, int x, int y) {
         maze[y][x] = 0;  // Mark current cell as empty
 
@@ -51,7 +36,7 @@ public interface Constants {
         }
     }
 
-    // Method that shuffles a 2D array
+    // Shuffles a 2D array randomly
     static void shuffleArray(int[][] array) {
         Random random = new Random();
         for (int i = array.length - 1; i > 0; i--) {
@@ -62,5 +47,3 @@ public interface Constants {
         }
     }
 }
-
-
