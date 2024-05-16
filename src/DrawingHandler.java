@@ -19,7 +19,7 @@ public class DrawingHandler {
         g.drawString("Press C to clear the map", 10, 40);
         g.drawString("Press SPACE to start/stop the simulation", 10, 60);
         g.drawString("Press and hold the left mouse button to draw walls", 10, 80);
-        g.drawString("Press the right mouse button to delete walls", 10, 100);
+        g.drawString("Press and hold the right mouse button to delete walls", 10, 100);
     }
 
     // Draws the simulation results on the screen

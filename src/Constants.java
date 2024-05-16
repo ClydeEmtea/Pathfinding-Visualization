@@ -10,7 +10,8 @@ public interface Constants {
     int NODE_SIZE = 16;         // Size of each grid node
     int NODES_X = WIDTH / NODE_SIZE;    // Number of nodes along the X-axis
     int NODES_Y = HEIGHT / NODE_SIZE;   // Number of nodes along the Y-axis
-    int STEPS_PER_FRAME = 10;   // Number of simulation steps per frame update
+    int STEPS_PER_FRAME = 20;   // Number of simulation steps per frame update
+    boolean DIAGONAL_MOVEMENT = false;   // Whether diagonal movement is allowed
 
     // Colors
     Color darkGray = new Color(40, 40, 40);    // Dark gray color

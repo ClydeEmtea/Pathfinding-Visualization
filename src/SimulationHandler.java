@@ -47,7 +47,13 @@ public class SimulationHandler {
             App.simulating = false;
         }
 
-        Node[] neighbours = NodeController.getNeighbours(currentNode);
+        Node[] neighbours;
+        if (Constants.DIAGONAL_MOVEMENT) {
+            neighbours = NodeController.getNeighbours(currentNode);
+        } else {
+            neighbours = NodeController.getNonDiagonalNeighbours(currentNode);
+        }
+
         for (Node neighbour : neighbours) {
             if (neighbour == null) continue;
             if (App.closedList.contains(neighbour)) continue;

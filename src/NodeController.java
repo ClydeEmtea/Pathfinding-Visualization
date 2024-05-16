@@ -109,6 +109,26 @@ public class NodeController implements Constants {
         return neighbours;
     }
 
+    public static Node[] getNonDiagonalNeighbours(Node node) {
+        Node[] neighbours = new Node[4];
+        int index = 0;
+        for (int x = node.getX() - 1; x <= node.getX() + 1; x++) {
+            for (int y = node.getY() - 1; y <= node.getY() + 1; y++) {
+                if (x < 0 || x >= NODES_X || y < 0 || y >= NODES_Y) continue;
+
+                if (App.nodes[x][y].isWall()) continue;
+
+                if (x == node.getX() && y == node.getY()) continue;
+
+                if (x != node.getX() && y != node.getY()) continue;
+
+                neighbours[index] = App.nodes[x][y];
+                index++;
+            }
+        }
+        return neighbours;
+    }
+
     // Creates a map of walls
     public static void createMap() {
         for (Node[] nodes1 : App.nodes) {
